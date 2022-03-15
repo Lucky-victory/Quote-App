@@ -37,10 +37,17 @@ async function getQuotes4(){
   renderAllQuotes(opt)
 
 }
+async function getQuotes5(){
+  const d=await fetcher(baseUrl,{limit:5,category:"inspirational"});
+  opt.push({"quotes":d.data,color:"#770680"})
+  renderAllQuotes(opt)
+
+}
 getQuotes()
 getQuotes2()
 getQuotes3()
 getQuotes4()
+getQuotes5()
 // fetcher(baseUrl,{limit:10,category:"love"});
 
 function renderCards(data=[]){
