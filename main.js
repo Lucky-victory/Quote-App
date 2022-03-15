@@ -1,4 +1,5 @@
 const mainContainer=document.querySelector('.main-container');
+const qotdContainer=document.querySelector('.qotd-container');
 
 const baseUrl="https://quote-generator-21.herokuapp.com";
 const opt=[];
@@ -82,10 +83,25 @@ function renderCardsContainer(data){
 }
 function renderAllQuotes(opt){
    mainContainer.innerHTML='';
-   console.log(opt);
+   
    opt.forEach((op)=>{
       
    mainContainer.insertAdjacentHTML("beforeend",renderCardsContainer(op));
    })
    
 }
+
+async function QuoteOfTheDay(){
+   let qotd= await fetcher(baseUrl+"/qotd");
+   qotd=qotd.data;
+   qotdContainer.innerHTML=`<div class="card">
+      <div class="card-image-wrapper">
+               <img src="https://source.unsplash.com/random/600x400?${qotd.category}" alt="" class="card-image">
+            </div> <div class="card-content" >
+      <p>${qotd.content}</p> 
+      <span class='card-author' > ${ qotd.author }
+   </span> 
+   </div> 
+   </div>`
+}
+QuoteOfTheDay()
