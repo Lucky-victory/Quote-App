@@ -86,7 +86,7 @@ function renderCards(data=[]){
          <div class="card-content">
            <p>${q.content}</p>
            <span class='card-author'>${q.author}</span>
-         <a class="share-btn" href='https://twitter.com/intent/tweet?text=${q.content}' >Tweet</a>
+         <a class="share-btn" href='https://twitter.com/intent/tweet?text="${q.content}" - ${q.author}' >Tweet</a>
          </div>
         </div>
    
@@ -138,7 +138,7 @@ async function QuoteOfTheDay(){
       <p>${qotd.content}</p> 
       <span class='card-author' > ${ qotd.author }
    </span> 
-            <a class="share-btn" href='https://twitter.com/intent/tweet?text=${qotd.content}' >Tweet</a>
+         <a class="share-btn" href='https://twitter.com/intent/tweet?text="${qotd.content}" - ${qotd.author}' >Tweet</a>
 
    </div> 
    
