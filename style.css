@@ -22,6 +22,21 @@ body {
    align-items: center;
    padding: 2rem 0;
 }
+.share-btn{
+   z-index: 4;
+   font-weight: 500;
+   background: #0869BF;
+   padding: 0.375rem 1rem;
+   border-radius: 0 0.5rem 0 0.5rem ;
+   text-decoration: none;
+   color: #fff;
+   cursor: pointer;
+   font-size: 14px;
+   text-transform: capitalize;
+   align-self: flex-end;
+   margin-top: 1rem;
+   
+}
 
 h1 {
    margin-bottom: 4rem;
@@ -57,7 +72,6 @@ h1 {
 }
 
 .main-container {
-   /* background: #000; */
    padding: 2rem 1rem;
    width: 100%;
    margin: 2rem auto;
