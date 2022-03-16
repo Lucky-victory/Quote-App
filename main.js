@@ -39,13 +39,26 @@ async function getDesignQuotes(){
   return d.data
 }
 async function getAllQuotes(){
-   mainContainer.innerHTML='Loading';
+   mainContainer.innerHTML=`
+   
+      <div class="category-header">
+      </div>
+      <div class="cards-container">
+         
+   <div class="card-skeleton"></div>
+   <div class="card-skeleton"></div>
+      <div class="card-skeleton">
+         
+      </div>
+      </div>
+   `;
    
    const results=await Promise.allSettled([getLoveQuotes(),
       getInspirationalQuotes(),
       getMotivationalQuotes(),
       getFriendshipQuotes(),
       getDesignQuotes()]);
+      
    const transformedResult=results.reduce((accum,result,index)=>{
       const q={"quotes":result.value,"color":colors[index]};
       accum.push(q);
@@ -96,20 +109,20 @@ function renderCardsContainer(data){
         `;
     return html;    
 }
-function renderAllQuotes(opt){
-   if(!Object.keys(opt).length){
+function renderAllQuotes(allQuotes){
+   if(!Object.keys(allQuotes).length){
       return
    }
    mainContainer.innerHTML='';
-   opt.forEach((op)=>{
+   allQuotes.forEach((quotes)=>{
       
-   mainContainer.insertAdjacentHTML("beforeend",renderCardsContainer(op));
+   mainContainer.insertAdjacentHTML("beforeend",renderCardsContainer(quotes));
    })
    
 }
 
 async function QuoteOfTheDay(){
-      qotdContainer.innerHTML='Loading'  
+      qotdContainer.innerHTML='   <div class="card-skeleton"></div>'  
  
    let qotd= await fetcher(baseUrl+"/qotd");
    if(!Object.keys(qotd.data).length){
