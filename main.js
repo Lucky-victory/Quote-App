@@ -2,7 +2,9 @@ const mainContainer=document.querySelector('.main-container');
 const qotdContainer=document.querySelector('.qotd-container');
 
 const baseUrl="https://quote-generator-21.herokuapp.com";
-const opt=[];
+let allQuotes=[];
+const colors=["#770680","#B35209","#A9095E","#077B60","#0882DD"];
+
 async function fetcher(url,paramsObj){
    const params=new URLSearchParams(paramsObj);
    
@@ -11,43 +13,49 @@ async function fetcher(url,paramsObj){
    
    return data;
 }
-async function getQuotes(){
+async function getLoveQuotes(){
   const d=await fetcher(baseUrl,{limit:5,category:"love"});
-  opt.push({"quotes":d.data,color:"#0882DD"})
-
-  renderAllQuotes(opt)
-
+return d.data;
 }
-async function getQuotes2(){
-  const d=await fetcher(baseUrl,{limit:5,category:"motivational"});
-  opt.push({"quotes":d.data,color:"#077B60"})
-  renderAllQuotes(opt)
-
-}
-async function getQuotes3(){
-  const d=await fetcher(baseUrl,{limit:5,category:"friendship"});
-  opt.push({"quotes":d.data,color:"#B35209"})
-  renderAllQuotes(opt)
-
-}
-
-async function getQuotes4(){
-  const d=await fetcher(baseUrl,{limit:5,category:"design"});
-  opt.push({"quotes":d.data,color:"#A9095E"})
-  renderAllQuotes(opt)
-
-}
-async function getQuotes5(){
+async function getInspirationalQuotes(){
   const d=await fetcher(baseUrl,{limit:5,category:"inspirational"});
-  opt.push({"quotes":d.data,color:"#770680"})
-  renderAllQuotes(opt)
+ return d.data;
 
 }
-getQuotes()
-getQuotes2()
-getQuotes3()
-getQuotes4()
-getQuotes5()
+async function getMotivationalQuotes(){
+  const d=await fetcher(baseUrl,{limit:5,category:"motivational"});
+  
+  return d.data;
+
+}
+
+async function getFriendshipQuotes(){
+  const d=await fetcher(baseUrl,{limit:5,category:"friendship"});
+  return d.data;
+
+}
+async function getDesignQuotes(){
+  const d=await fetcher(baseUrl,{limit:5,category:"design"});
+  return d.data
+}
+async function getAllQuotes(){
+   mainContainer.innerHTML='Loading';
+   
+   const results=await Promise.allSettled([getLoveQuotes(),
+      getInspirationalQuotes(),
+      getMotivationalQuotes(),
+      getFriendshipQuotes(),
+      getDesignQuotes()]);
+   const transformedResult=results.reduce((accum,result,index)=>{
+      const q={"quotes":result.value,"color":colors[index]};
+      accum.push(q);
+      return accum;
+   },[]);
+allQuotes=transformedResult;
+    renderAllQuotes(allQuotes);  
+}
+getAllQuotes()
+
 // fetcher(baseUrl,{limit:10,category:"love"});
 
 function renderCards(data=[]){
@@ -89,8 +97,10 @@ function renderCardsContainer(data){
     return html;    
 }
 function renderAllQuotes(opt){
+   if(!Object.keys(opt).length){
+      return
+   }
    mainContainer.innerHTML='';
-   
    opt.forEach((op)=>{
       
    mainContainer.insertAdjacentHTML("beforeend",renderCardsContainer(op));
@@ -99,7 +109,13 @@ function renderAllQuotes(opt){
 }
 
 async function QuoteOfTheDay(){
+      qotdContainer.innerHTML='Loading'  
+ 
    let qotd= await fetcher(baseUrl+"/qotd");
+   if(!Object.keys(qotd.data).length){
+    qotdContainer.innerHTML='No Quote '  
+      return 
+   }
    qotd=qotd.data;
    qotdContainer.innerHTML=`<div class="card">
       <div class="card-image-wrapper">
@@ -111,4 +127,4 @@ async function QuoteOfTheDay(){
    </div> 
    </div>`
 }
-QuoteOfTheDay()
+QuoteOfTheDay();

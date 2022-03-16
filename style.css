@@ -36,6 +36,11 @@ h1{
    margin-bottom: 1rem;
    color: #B1062A;
    text-align: center;
+   padding: 1rem;
+   background: #fff;
+   /* width: 100%; */
+box-shadow: 5px -5px 14px #0002,-5px 0 5px #0003;
+   border-radius: 0.25rem;
 }
 .qotd-wrapper .card{
    max-width: 500px!important;
